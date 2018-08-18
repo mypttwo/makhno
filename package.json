@@ -1,0 +1,23 @@
+{
+  "name": "makhno",
+  "version": "1.0.0",
+  "description": "makhno server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "mypt",
+  "license": "ISC",
+  "dependencies": {
+    "chai": "^4.1.2",
+    "cors": "^2.8.4",
+    "crypto-js": "^3.1.9-1",
+    "dotenv": "^6.0.0",
+    "express": "^4.16.3",
+    "mocha": "^5.2.0",
+    "mongoose": "^5.2.8",
+    "socket.io": "^2.1.1",
+    "winston": "^3.0.0",
+    "winston-daily-rotate-file": "3.1.3"
+  }
+}
