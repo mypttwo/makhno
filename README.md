@@ -3,6 +3,8 @@
 
 This is the server implementation of an app that allows users to participate in a fixed bid auction via any browser with the [Metamask](https://metamask.io/) plug in.
 
+The client implementation is available at https://github.com/mypttwo/mulkila.
+
 Disclaimers :  
 While this allows users to participate in the auction,  this does not restrict anonymous users from directly interacting with the smart contract on Ethereum. 
 
