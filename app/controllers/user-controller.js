@@ -3,6 +3,7 @@
 let express = require('express');
 let router = express.Router();
 let bodyParser = require('body-parser');
+let logger = require('../logger');
 
 let User = require('../models/user').User;
 
