@@ -5,57 +5,38 @@ import './Ownable.sol';
 contract Makhno is Ownable {
 
     event BidPlaced();
+    event GameStarted();
+    event GameEnded();
 
     uint public bidSize = 0;
-    uint public interval = 0;
-
-
-    uint public gameStatus = 0;
-    uint public currentBidSize = 0;
-    uint public currentInterval = 0;
     uint public jackpot = 0;
-    uint public timeOfLastBid = 0;
+    uint public gameStatus = 0;
     address public jackpotOwner = owner;
 
     mapping (address => uint) pendingWithdrawals;
 
-    function set (uint _bidSize, uint _interval) external onlyOwner {
+    function start (uint _jackpot, uint _bidSize) external onlyOwner {
         bidSize = _bidSize;
-        interval = _interval;
-        jackpotOwner = owner;
-    }
-
-    function start (uint _jackpot) external onlyOwner {
-        currentBidSize = bidSize;
-        currentInterval = interval;
         jackpot = _jackpot;  
         gameStatus = 1;
-        jackpotOwner = owner;      
+        jackpotOwner = owner;     
+
+        emit GameStarted(); 
     }
 
     function end () external onlyOwner {
         gameStatus = 0;
-        currentInterval = interval;
-    }
 
-    function check() public {
-        if (gameStatus == 1) {
-            if (currentInterval > now - timeOfLastBid) {
-                gameStatus = 0;
-                pendingWithdrawals[jackpotOwner] += jackpot;
-                jackpotOwner = owner;
-                jackpot = 0;
-            }
-        }
-    }    
+        emit GameEnded();
+    }
 
     function bid () external payable {
         require(gameStatus == 1);
-        require(msg.value == currentBidSize);
+        require(msg.value == bidSize);
 
         jackpot = jackpot + (msg.value * 4)/5;
-        timeOfLastBid = now;
         jackpotOwner = msg.sender; 
+
         emit BidPlaced();
     }
 
@@ -65,7 +46,7 @@ contract Makhno is Ownable {
         msg.sender.transfer(winnings);
     }
 
-    function getCurrentGame() external view returns (uint, address, uint) {
-        return (gameStatus, jackpotOwner, timeOfLastBid);
+    function getCurrentGame() external view returns (uint, uint, address, uint) {
+        return (gameStatus, jackpot, jackpotOwner, bidSize);
     }
 }
